@@ -8,18 +8,21 @@ import plotly.figure_factory as ff
 import os
 import requests
 
-# URL to download the CSV file from Google Drive
-file_url = 'https://drive.google.com/file/d/1mwPOPl56hYJzGweXbBqxrtng2CRHEAoi/view?usp=sharing'
-file_path = 'athlete_events.csv'
 
-if not os.path.exists(file_path):
+file_urls = {
+    'athlete_events.csv': 'https://drive.google.com/file/d/1mwPOPl56hYJzGweXbBqxrtng2CRHEAoi/view?usp=sharing',
+    'noc_regions.csv': 'https://drive.google.com/file/d/15AG0DfCFtxGyKiowaGjiUTsYbwoxUPbB/view?usp=sharing'
+}
+
+dfs = {}
+for file_name, file_url in file_urls.items():
     response = requests.get(file_url)
-    with open(file_path, 'wb') as f:
+    with open(file_name, 'wb') as f:
         f.write(response.content)
+    dfs[file_name] = pd.read_csv(file_name)
 
-
-df = pd.read_csv(file_path)
-df_region= pd.read_csv('/noc_regions.csv')
+df = dfs['athlete_events.csv']
+df_region = dfs['noc_regions.csv']
 
 df=preprocessor.preprocess(df,df_region)
 
@@ -27,7 +30,7 @@ st.sidebar.title("Olympics Analysis")
 st.sidebar.image('https://png.pngtree.com/png-vector/20220611/ourmid/pngtree-olympic-rings-colorful-rings-on-a-white-background-png-image_4825904.png')
 user_menu = st.sidebar.radio('select an option',('Medal Tally','Overall Analysis','Country-wise Analysis','Athlete wise Analysis'))
 
-# st.dataframe(df)
+
 
 if user_menu == 'Medal Tally':
     st.sidebar.header('Medal Tally')

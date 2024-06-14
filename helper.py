@@ -85,7 +85,6 @@ def country_event_heatmap(df,country):
     temp_df = temp_df[temp_df['region'] == country]
     pt = temp_df.pivot_table(index='Sport',columns='Year',values='Medal',aggfunc='count').fillna(0)
     return pt
-#streamlit run app.py
 
 def most_successful_countrywise(df,country):
     temp_df = df.dropna(subset=['Medal'])
