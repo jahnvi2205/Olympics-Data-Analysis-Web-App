@@ -5,7 +5,11 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.figure_factory as ff
+import requests
 
+# URL to download the CSV file from Google Drive
+file_url = 'https://drive.google.com/file/d/1mwPOPl56hYJzGweXbBqxrtng2CRHEAoi/view?usp=sharing'
+file_path = 'file_path'
 
 df= pd.read_csv('/athlete_events.csv')
 df_region= pd.read_csv('/noc_regions.csv')
