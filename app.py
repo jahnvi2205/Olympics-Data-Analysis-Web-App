@@ -15,12 +15,17 @@ file_urls = {
     'noc_regions.csv': 'https://drive.google.com/file/d/15AG0DfCFtxGyKiowaGjiUTsYbwoxUPbB/view?usp=sharing'
 }
 
+csv_files = ['athlete_events.csv', 'noc_regions.csv']
+
 dfs = {}
-for file_name, file_url in file_urls.items():
-    response = requests.get(file_url)
-    with open(file_name, 'wb') as f:
-        f.write(response.content)
-    dfs[file_name] = pd.read_csv(file_name)
+for file_name in csv_files:
+    try:
+        if os.path.exists(file_name):
+            dfs[file_name] = pd.read_csv(file_name)
+        else:
+            raise FileNotFoundError(f"File {file_name} not found")
+    except Exception as e:
+        print(f"Error reading {file_name}: {e}")
 
 df = dfs['athlete_events.csv']
 df_region = dfs['noc_regions.csv']
