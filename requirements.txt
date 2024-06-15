@@ -3,4 +3,3 @@ plotly
 seaborn
 matplotlib
 requests
-streamlit
